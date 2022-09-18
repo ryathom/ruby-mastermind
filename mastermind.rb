@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 require_relative 'player'
+require_relative 'humanplayer'
+require_relative 'computerplayer'
 
 # Game logic
 class Mastermind
