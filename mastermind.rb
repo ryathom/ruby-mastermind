@@ -32,12 +32,14 @@ class Mastermind
     until @game_over
       guess = @codebreaker.make_guess(@turn)
       @game_over = @codemaker.evaluate_guess(guess)
-      @winner = @codebreaker if @game_over == true
-
-      @turn += 1
-      if @turn > @max_turns
-        @game_over = true
-        @winner = @codemaker
+      if @game_over == true
+        @winner = @codebreaker 
+      else
+        @turn += 1
+        if @turn > @max_turns
+          @game_over = true
+          @winner = @codemaker
+        end
       end
     end
   end
