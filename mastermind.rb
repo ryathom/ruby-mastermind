@@ -2,10 +2,15 @@
 
 require_relative 'player'
 
+# Game logic
 class Mastermind
   def initialize
     welcome_msg
     register_players
+  end
+
+  def play
+    code = set_code
   end
 
   private
@@ -18,9 +23,14 @@ class Mastermind
   end
 
   def register_players
-    @player1 = HumanPlayer.new('codebreaker')
-    @player2 = ComputerPlayer.new('codemaker')
+    @codebreaker  = HumanPlayer.new('codebreaker')
+    @codemaker    = ComputerPlayer.new('codemaker')
+  end
+
+  def set_code
+    @codemaker.set_code
   end
 end
 
 game = Mastermind.new
+game.play
