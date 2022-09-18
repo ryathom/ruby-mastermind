@@ -18,7 +18,7 @@ class Player
 
   def evaluate_guess(guess)
     full = full_matches(guess)
-    partial = partial_matches(guess)
+    partial = partial_matches(guess) - full
 
     display_feedback(full, partial)
 
