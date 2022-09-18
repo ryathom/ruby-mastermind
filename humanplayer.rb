@@ -1,7 +1,11 @@
+# frozen_string_literal: true
+
 require './player'
 
 # Child class for human-controlled player
 class HumanPlayer < Player
+  attr_accessor :opponent
+
   def ishuman?
     true
   end

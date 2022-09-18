@@ -8,7 +8,6 @@ require_relative 'computerplayer'
 class Mastermind
   def initialize
     welcome_msg
-    register_players
     @max_turns = 12
   end
 
@@ -16,6 +15,7 @@ class Mastermind
     replay = true
 
     while replay
+      register_players
       initial_game_state
       play
 
@@ -33,7 +33,7 @@ class Mastermind
       guess = @codebreaker.make_guess(@turn)
       @game_over = @codemaker.evaluate_guess(guess)
       if @game_over == true
-        @winner = @codebreaker 
+        @winner = @codebreaker
       else
         @turn += 1
         if @turn > @max_turns
@@ -68,6 +68,7 @@ class Mastermind
     when 2
       @codemaker    = HumanPlayer.new('codemaker')
       @codebreaker  = ComputerPlayer.new('codebreaker')
+      @codemaker.opponent = @codebreaker
     end
   end
 
