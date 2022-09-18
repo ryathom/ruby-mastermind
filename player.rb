@@ -66,9 +66,6 @@ class ComputerPlayer < Player
   end
 
   def evaluate_guess(guess)
-    p "DEBUG: Code is #{@code}"
-    p "DEBUG: Guess is #{guess}"
-
     full = full_matches(guess)
     partial = partial_matches(guess)
 
