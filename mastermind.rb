@@ -10,11 +10,12 @@ class Mastermind
   end
 
   def play
-    code = @codemaker.make_code
+    @codemaker.make_code
     turn = 1
 
     until turn > 12
-      @codebreaker.guess(turn)
+      guess = @codebreaker.guess(turn)
+      @codemaker.evaluate_guess(guess)
       turn += 1
     end
   end
