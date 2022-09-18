@@ -10,7 +10,13 @@ class Mastermind
   end
 
   def play
-    code = set_code
+    code = @codemaker.make_code
+    turn = 1
+
+    until turn > 12
+      @codebreaker.guess(turn)
+      turn += 1
+    end
   end
 
   private
@@ -25,10 +31,6 @@ class Mastermind
   def register_players
     @codebreaker  = HumanPlayer.new('codebreaker')
     @codemaker    = ComputerPlayer.new('codemaker')
-  end
-
-  def set_code
-    @codemaker.set_code
   end
 end
 

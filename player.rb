@@ -20,6 +20,31 @@ class HumanPlayer < Player
   def ishuman?
     true
   end
+
+  def guess(turn)
+    puts nil
+    puts "Turn ##{turn}: Type in four numbers (1-6) to guess the code."
+    guess = valid_guess
+  end
+
+  private
+
+  def valid_guess
+    guess = guess_input
+
+    until (guess.length == 4) && (guess.all? { |n| n.between?(1, 6) })
+      puts 'Guess must be a sequence of four numbers from 1-6.'
+      if ' ' in guess then
+        puts 'Don\'t use spaces as seperators.'
+      end
+      guess = guess_input
+    end
+  end
+
+  def guess_input
+    guess = gets.chomp.split('')
+    guess.map!(&:to_i)
+  end
 end
 
 # Child class for computer-controlled player
@@ -28,7 +53,7 @@ class ComputerPlayer < Player
     false
   end
 
-  def set_code
+  def make_code
     puts 'Beep boop, setting a code...'
 
     code = []
