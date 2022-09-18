@@ -7,31 +7,45 @@ class Mastermind
   def initialize
     welcome_msg
     register_players
-    @game_over = false
-    @winner = nil
     @max_turns = 12
   end
 
-  def play
-    @codemaker.make_code
-    turn = 1
+  def main
+    replay = true
 
+    while replay
+      initial_game_state
+      play
+
+      announce_winner
+      puts 'Would you like to play again? (y/n)'
+      replay = (gets.chomp == 'y')
+      system 'clear'
+    end
+  end
+
+  private
+
+  def play
     until @game_over
-      guess = @codebreaker.guess(turn)
+      guess = @codebreaker.guess(@turn)
       @game_over = @codemaker.evaluate_guess(guess)
       @winner = @codebreaker if @game_over == true
 
-      turn += 1
-      if turn > @max_turns
+      @turn += 1
+      if @turn > @max_turns
         @game_over = true
         @winner = @codemaker
       end
     end
-
-    announce_winner
   end
 
-  private
+  def initial_game_state
+    @codemaker.make_code
+    @turn = 1
+    @game_over = false
+    @winner = nil
+  end
 
   def welcome_msg
     puts '-----------------------------------'
@@ -57,4 +71,4 @@ class Mastermind
 end
 
 game = Mastermind.new
-game.play
+game.main
