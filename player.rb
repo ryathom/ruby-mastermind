@@ -2,6 +2,8 @@
 
 # Parent class for game player
 class Player
+  attr_reader :code
+
   def initialize(role)
     @role = role
   end
@@ -67,9 +69,15 @@ class ComputerPlayer < Player
     p "DEBUG: Code is #{@code}"
     p "DEBUG: Guess is #{guess}"
 
-    full_matches(guess)
-    partial_matches(guess)
+    full = full_matches(guess)
+    partial = partial_matches(guess)
+
+    display_feedback(full, partial)
+
+    full == 4
   end
+
+  private
 
   def full_matches(guess)
     full = 0
@@ -78,7 +86,7 @@ class ComputerPlayer < Player
       full += 1 if guess[i] == n
     end
 
-    puts "Matches: #{full}"
+    full
   end
 
   def partial_matches(guess)
@@ -90,6 +98,11 @@ class ComputerPlayer < Player
       partial += [code_cnt, guess_cnt].min
     end
 
+    partial
+  end
+
+  def display_feedback(full, partial)
+    puts "Matches: #{full}"
     puts "Partial matches: #{partial}"
   end
 end

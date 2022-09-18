@@ -7,17 +7,28 @@ class Mastermind
   def initialize
     welcome_msg
     register_players
+    @game_over = false
+    @winner = nil
+    @max_turns = 12
   end
 
   def play
     @codemaker.make_code
     turn = 1
 
-    until turn > 12
+    until @game_over
       guess = @codebreaker.guess(turn)
-      @codemaker.evaluate_guess(guess)
+      @game_over = @codemaker.evaluate_guess(guess)
+      @winner = @codebreaker if @game_over == true
+
       turn += 1
+      if turn > @max_turns
+        @game_over = true
+        @winner = @codemaker
+      end
     end
+
+    announce_winner
   end
 
   private
@@ -32,6 +43,16 @@ class Mastermind
   def register_players
     @codebreaker  = HumanPlayer.new('codebreaker')
     @codemaker    = ComputerPlayer.new('codemaker')
+  end
+
+  def announce_winner
+    puts nil
+    if @winner.ishuman?
+      puts 'Congratulations, you have bested the computer.'
+    else
+      puts 'Too bad, the computer has outsmarted you.'
+      puts "The code was #{@codemaker.code}"
+    end
   end
 end
 
