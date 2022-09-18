@@ -28,7 +28,7 @@ class Mastermind
 
   def play
     until @game_over
-      guess = @codebreaker.guess(@turn)
+      guess = @codebreaker.make_guess(@turn)
       @game_over = @codemaker.evaluate_guess(guess)
       @winner = @codebreaker if @game_over == true
 
@@ -55,8 +55,29 @@ class Mastermind
   end
 
   def register_players
-    @codebreaker  = HumanPlayer.new('codebreaker')
-    @codemaker    = ComputerPlayer.new('codemaker')
+    choice = ask_maker_breaker
+
+    case choice
+    when 1
+      @codebreaker  = HumanPlayer.new('codebreaker')
+      @codemaker    = ComputerPlayer.new('codemaker')
+    when 2
+      @codemaker    = HumanPlayer.new('codemaker')
+      @codebreaker  = ComputerPlayer.new('codebreaker')
+    end
+  end
+
+  def ask_maker_breaker
+    puts 'Choose play mode:'
+    puts '1: Code Breaker'
+    puts '2: Code Maker'
+    x = gets.chomp.to_i
+
+    until (x == 1) || (x == 2)
+      puts 'Error: Choose 1 or 2'
+      x = gets.chomp.to_i
+    end
+    x
   end
 
   def announce_winner

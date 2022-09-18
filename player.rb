@@ -15,55 +15,6 @@ class Player
   def iscodebreaker?
     true if @role == 'codebreaker'
   end
-end
-
-# Child class for human-controlled player
-class HumanPlayer < Player
-  def ishuman?
-    true
-  end
-
-  def guess(turn)
-    puts nil
-    puts "Turn ##{turn}: Type in four numbers (1-6) to guess the code."
-    valid_guess
-  end
-
-  private
-
-  def valid_guess
-    guess = guess_input
-
-    until (guess.length == 4) && (guess.all? { |n| n.between?(1, 6) })
-      puts 'Guess must be a sequence of four numbers from 1-6.'
-      puts 'Don\'t use spaces as seperators.' if guess.include?(' ')
-      guess = guess_input
-    end
-
-    guess
-  end
-
-  def guess_input
-    guess = gets.chomp.split('')
-    guess.map!(&:to_i)
-  end
-end
-
-# Child class for computer-controlled player
-class ComputerPlayer < Player
-  def ishuman?
-    false
-  end
-
-  def make_code
-    puts 'Beep boop, setting a code...'
-
-    @code = []
-    4.times { @code << (rand 1..6) }
-
-    puts 'The computer has chosen a code - now try to break it.'
-    @code
-  end
 
   def evaluate_guess(guess)
     full = full_matches(guess)
@@ -101,5 +52,72 @@ class ComputerPlayer < Player
   def display_feedback(full, partial)
     puts "Matches: #{full}"
     puts "Partial matches: #{partial}"
+  end
+end
+
+# Child class for human-controlled player
+class HumanPlayer < Player
+  def ishuman?
+    true
+  end
+
+  def make_guess(turn)
+    puts nil
+    puts "Turn ##{turn}: Type in four numbers (1-6) to guess the code."
+    valid_code
+  end
+
+  def make_code
+    puts nil
+    puts 'Enter your 4 digit code using numbers from 1 to 6:'
+    @code = valid_code
+  end
+
+  private
+
+  def valid_code
+    code = code_input
+
+    until (code.length == 4) && (code.all? { |n| n.between?(1, 6) })
+      puts 'Unrecognised input: Enter a sequence of four numbers from 1-6.'
+      puts 'Don\'t use spaces as seperators.' if code.include?(' ')
+      code = code_input
+    end
+
+    code
+  end
+
+  def code_input
+    code = gets.chomp.split('')
+    code.map!(&:to_i)
+  end
+end
+
+# Child class for computer-controlled player
+class ComputerPlayer < Player
+  def ishuman?
+    false
+  end
+
+  def make_code
+    puts 'Beep boop, setting a code...'
+
+    @code = []
+    4.times { @code << (rand 1..6) }
+
+    puts 'The computer has chosen a code - now try to break it.'
+    @code
+  end
+
+  def make_guess(turn)
+    puts 'Beep boop, let me guess...' if turn == 1
+    sleep 1
+
+    guess = []
+    4.times { guess << (rand 1..6) }
+
+    puts "Turn ##{turn}: The computer guessed #{guess}"
+    sleep 1
+    guess
   end
 end
